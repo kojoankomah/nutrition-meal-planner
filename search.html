@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Patrick Ankokah">
+        <title>Nutrition & Meal Planner</title>
+        <meta name="description" content="Search for healthy recipes with Nutrition & Meal Planner app">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="icon" href="assets/icon.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav class="navbar">
+                <img src="assets/icon.png" alt="App Logo" class="logo">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="search.html" aria-current="page" class="active">Search</a></li>
+                    <li><a href="planner.html">Meal Planner</a></li>
+                    <li><a href="grocery.html">Grocery Lists</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="search-section">
+                <h2>
+                    Find Healthy Recipes
+                </h2>
+                <label for="searchInput" class="visually-hidden">
+                    Search Recipes
+                    <input type="text" id="searchInput" placeholder="eg. Chicken, Vegan Burger" aria-label="Search Recipes">
+                </label>
+                <button id="searchBtn">Search</button>
+            </section>
+
+            <section id="results" class="recipe-results">
+
+            </section>
+        </main>
+
+        <script src="js/api.js" defer></script>
+        <script src="js/search.js" defer></script>
+        <footer>
+            <p>&copy; 2025 Patrick Ankomah - Meal Planner App 😎</p>
+        </footer>
+
+    </body>
+
+</html>
