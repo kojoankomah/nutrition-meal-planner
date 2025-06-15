@@ -69,7 +69,6 @@ footer{
     color: white;
     text-align: center;
     padding: 1rem;
-    position: fixed;
     bottom: 0;
     width: 100%;
 }
@@ -246,4 +245,120 @@ button:focus, a:focus {
 }
 .remove-item:hover {
   background-color: #b71c1c;
+}
+
+.grocery-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.grocery-controls button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.grocery-controls button:hover {
+  background-color: #388e3c;
+}
+
+.grocery-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grocery-card h3 {
+  margin-bottom: 0.5rem;
+  color: #4CAF50;
+}
+
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0;
+}
+
+.ingredient-item label {
+  flex: 1;
+}
+
+.ingredient-item button {
+  margin-left: 0.5rem;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+}
+
+.ingredient-item button:hover {
+  background-color: #b71c1c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**PRINT STYLE*/
+
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 14pt;
+  }
+
+  nav, footer, .grocery-controls {
+    display: none !important; /* Hide nav, footer, and buttons */
+  }
+
+  .grocery {
+    margin-top: 2rem;
+  }
+
+  ul.grocery-list {
+    padding-left: 0;
+  }
+
+  ul.grocery-list li {
+    border: none;
+    box-shadow: none;
+    padding: 0.5rem 0;
+  }
 }

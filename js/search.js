@@ -14,6 +14,8 @@ searchBtn.addEventListener('click', async () => {
   }
 
   const recipes = await fetchRecipes(query);
+  console.log("RAW Spoonacular data:", recipes);
+
   resultsContainer.innerHTML = '';
 
   if (recipes.length === 0) {
@@ -23,7 +25,10 @@ searchBtn.addEventListener('click', async () => {
 
   recipes.forEach(recipe => {
     const card = document.createElement('div');
-    const ingredients = recipe.extendedIngredients?.map(i => i.original) || [];
+    let ingredients = [];
+    if (Array.isArray(recipe.extendedIngredients)) {
+      ingredients = recipe.extendedIngredients.map(i => i.original);
+    }
     card.classList.add('recipe-card', 'card');
 
     card.innerHTML = `
@@ -31,9 +36,9 @@ searchBtn.addEventListener('click', async () => {
       <h3>${recipe.title}</h3>
       <p>Ready in ${recipe.readyInMinutes} mins | ${recipe.servings} servings</p>
       <a href="${recipe.sourceUrl}" target="_blank">View Recipe</a>
-      <button class="add-btn" 
-        data-id="${recipe.id}" 
-        data-title="${recipe.title}" 
+      <button class="add-btn"
+        data-id="${recipe.id}"
+        data-title="${recipe.title}"
         data-image="${recipe.image}"
         data-ingredients='${JSON.stringify(ingredients)}'>
         Add to Plan
@@ -43,12 +48,13 @@ searchBtn.addEventListener('click', async () => {
   });
 });
 
-resultsContainer.addEventListener('click', (event) => {
+resultsContainer.addEventListener('click', async (event) => {
   if (event.target.classList.contains('add-btn')) {
     const button = event.target;
     const id = button.getAttribute('data-id');
     const title = button.getAttribute('data-title');
     const image = button.getAttribute('data-image');
+    const ingredients = JSON.parse(button.getAttribute('data-ingredients'));
 
     const day = prompt("Assign this recipe to which day of the week? (e.g. Monday)");
     if (!day || !days.includes(day)) {
@@ -56,18 +62,13 @@ resultsContainer.addEventListener('click', (event) => {
       return;
     }
 
+    // 🔥 Fetch nutrition info here
+    const nutrition = await fetchNutrition(id);
+
     let mealPlan = JSON.parse(localStorage.getItem('mealPlan')) || [];
     mealPlan = mealPlan.filter(r => r.day !== day);
 
-    const ingredients = JSON.parse(button.getAttribute('data-ingredients'));
-
-    mealPlan.push({
-      id,
-      title,
-      image,
-      day,
-      ingredients   
-    });
+    mealPlan.push({ id, title, image, day, ingredients, nutrition });
 
     localStorage.setItem('mealPlan', JSON.stringify(mealPlan));
 
@@ -77,3 +78,4 @@ resultsContainer.addEventListener('click', (event) => {
     alert(`Added "${title}" to your ${day} plan!`);
   }
 });
+
