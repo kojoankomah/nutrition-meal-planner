@@ -36,17 +36,45 @@ searchBtn.addEventListener('click', async () => {
       <h3>${recipe.title}</h3>
       <p>Ready in ${recipe.readyInMinutes} mins | ${recipe.servings} servings</p>
       <a href="${recipe.sourceUrl}" target="_blank">View Recipe</a>
-      <button class="add-btn"
-        data-id="${recipe.id}"
-        data-title="${recipe.title}"
-        data-image="${recipe.image}"
-        data-ingredients='${JSON.stringify(ingredients)}'>
-        Add to Plan
-      </button>
+
+      <div class="add-to-plan">
+        <select class="day-select">
+          <option value="" disabled selected>Choose a day</option>
+          ${days.map(day => `<option value="${day}">${day}</option>`).join("")}
+        </select>
+        <button class="add-btn"
+          data-id="${recipe.id}" 
+          data-title="${recipe.title}" 
+          data-image="${recipe.image}"
+          data-ingredients='${JSON.stringify(ingredients)}'
+          disabled
+        >
+          Add to Plan
+        </button>
+      </div>
     `;
+
     resultsContainer.appendChild(card);
+    
+    const select = card.querySelector('.day-select');
+    const addBtn = card.querySelector('.add-btn');
+
+    select.addEventListener('change', () => {
+      if (select.value) {
+        addBtn.disabled = false;
+      }
+    });
+
   });
 });
+
+searchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // prevent default form submission if any
+    searchBtn.click();      // simulate clicking the search button
+  }
+});
+
 
 resultsContainer.addEventListener('click', async (event) => {
   if (event.target.classList.contains('add-btn')) {
@@ -56,11 +84,23 @@ resultsContainer.addEventListener('click', async (event) => {
     const image = button.getAttribute('data-image');
     const ingredients = JSON.parse(button.getAttribute('data-ingredients'));
 
-    const day = prompt("Assign this recipe to which day of the week? (e.g. Monday)");
-    if (!day || !days.includes(day)) {
-      alert('Invalid day. Please type exactly: Monday, Tuesday, etc.');
-      return;
-    }
+const daySelect = button.previousElementSibling;
+let day = daySelect.value;
+
+if (!day || !days.includes(day)) {
+  alert('Please select a valid day from the dropdown.');
+  return;
+}
+
+
+
+day = day.charAt(0).toUpperCase() + day.slice(1).toLowerCase(); // Normalize to "Monday"
+
+if (!days.includes(day)) {
+  alert('Invalid day. Please enter a valid day of the week (e.g., Monday).');
+  return;
+}
+
 
     // 🔥 Fetch nutrition info here
     const nutrition = await fetchNutrition(id);

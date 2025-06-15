@@ -159,6 +159,13 @@ button:focus, a:focus {
 }
 
 
+.add-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+
 /* CSS FOR PLANNER PAGE */
 
 .planner{
@@ -308,8 +315,21 @@ button:focus, a:focus {
 }
 
 
+/*CSS FOR PLAN */
 
+.add-to-plan {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
 
+.day-select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
 
 
 
