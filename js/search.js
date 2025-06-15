@@ -1,7 +1,12 @@
-document.getElementById('searchBtn').addEventListener('click', async () => {
-  const query = document.getElementById('searchInput').value.trim();
-  const resultsContainer = document.getElementById('results');
-resultsContainer.innerHTML = '<div class="loader"></div>';
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+const resultsContainer = document.getElementById('results');
+
+searchBtn.addEventListener('click', async () => {
+  const query = searchInput.value.trim();
+  resultsContainer.innerHTML = '<div class="loader"></div>';
 
   if (!query) {
     resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
@@ -16,18 +21,26 @@ resultsContainer.innerHTML = '<div class="loader"></div>';
     return;
   }
 
-recipes.forEach(recipe => {
-  const card = document.createElement('div');
-  card.classList.add('recipe-card', 'card');  // added 'card' class for styling
-  card.innerHTML = `
-    <img src="${recipe.image}" alt="${recipe.title}" />
-    <h3>${recipe.title}</h3>
-    <p>Ready in ${recipe.readyInMinutes} mins | ${recipe.servings} servings</p>
-    <a href="${recipe.sourceUrl}" target="_blank">View Recipe</a>
-    <button class="add-btn" data-id="${recipe.id}" data-title="${recipe.title}" data-image="${recipe.image}">Add to Plan</button>
-  `;
-  resultsContainer.appendChild(card);
-});
+  recipes.forEach(recipe => {
+    const card = document.createElement('div');
+    const ingredients = recipe.extendedIngredients?.map(i => i.original) || [];
+    card.classList.add('recipe-card', 'card');
+
+    card.innerHTML = `
+      <img src="${recipe.image}" alt="${recipe.title}" />
+      <h3>${recipe.title}</h3>
+      <p>Ready in ${recipe.readyInMinutes} mins | ${recipe.servings} servings</p>
+      <a href="${recipe.sourceUrl}" target="_blank">View Recipe</a>
+      <button class="add-btn" 
+        data-id="${recipe.id}" 
+        data-title="${recipe.title}" 
+        data-image="${recipe.image}"
+        data-ingredients='${JSON.stringify(ingredients)}'>
+        Add to Plan
+      </button>
+    `;
+    resultsContainer.appendChild(card);
+  });
 });
 
 resultsContainer.addEventListener('click', (event) => {
@@ -37,24 +50,30 @@ resultsContainer.addEventListener('click', (event) => {
     const title = button.getAttribute('data-title');
     const image = button.getAttribute('data-image');
 
-    addToMealPlan({ id, title, image });
+    const day = prompt("Assign this recipe to which day of the week? (e.g. Monday)");
+    if (!day || !days.includes(day)) {
+      alert('Invalid day. Please type exactly: Monday, Tuesday, etc.');
+      return;
+    }
 
-    // Disable the button and update text after adding
+    let mealPlan = JSON.parse(localStorage.getItem('mealPlan')) || [];
+    mealPlan = mealPlan.filter(r => r.day !== day);
+
+    const ingredients = JSON.parse(button.getAttribute('data-ingredients'));
+
+    mealPlan.push({
+      id,
+      title,
+      image,
+      day,
+      ingredients   
+    });
+
+    localStorage.setItem('mealPlan', JSON.stringify(mealPlan));
+
     button.textContent = 'Added';
     button.disabled = true;
 
+    alert(`Added "${title}" to your ${day} plan!`);
   }
 });
-
-function addToMealPlan(recipe) {
-  let mealPlan = JSON.parse(localStorage.getItem('mealPlan')) || [];
-
-  if (mealPlan.some(r => r.id === recipe.id)) {
-    alert('Recipe already in your meal plan!');
-    return;
-  }
-
-  mealPlan.push(recipe);
-  localStorage.setItem('mealPlan', JSON.stringify(mealPlan));
-  alert(`Added "${recipe.title}" to your meal plan!`);
-}

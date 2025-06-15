@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grocery List - Nutrition & Meal Planner</title>
+  <meta name="description" content="Automatically generated grocery list from your meal plan"/>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/icon.png" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <img src="assets/icon.png" alt="App Logo" class="logo">
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="planner.html">Meal Planner</a></li>
+        <li><a href="grocery.html" class="active" aria-current="page">Grocery Lists</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="grocery">
+      <h2>Your Grocery List</h2>
+      <ul id="groceryList" class="grocery-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Patrick Ankomah - Meal Planner App 😎</p>
+  </footer>
+
+  <script src="js/grocery.js" defer></script>
+</body>
+</html>
