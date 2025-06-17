@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - Nutrition & Meal Planner</title>
+  <meta name="description" content="User profile page for meal planning"/>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/icon.png" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <img src="assets/icon.png" alt="App Logo" class="logo">
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="planner.html">Meal Planner</a></li>
+        <li><a href="grocery.html">Grocery Lists</a></li>
+        <li><a href="profile.html" aria-current="page" class="active">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<main class="profile">
+  <h2>👤 Your Profile</h2>
+
+  <form id="profileForm">
+    <label>
+        Name:
+        <input type="text" id="nameInput" placeholder="Enter your name" required />
+    </label>
+    <label>
+        Daily Calorie Goal:
+        <input type="number" id="goalInput" placeholder="e.g. 2000" required />
+    </label>
+    <button type="submit">Save Profile</button>
+    </form>
+
+    <div id="profileGreeting"></div>
+    <div id="profileContent"></div>
+    <button id="clearPlan">🗑 Clear Meal Plan</button>
+</main>
+
+
+  <footer>
+    <p>&copy; 2025 Patrick Ankomah - Meal Planner App 😎</p>
+  </footer>
+
+  <script src="js/profile.js" defer></script>
+</body>
+</html>
